@@ -72,12 +72,13 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
   const removeProduct = (productId: number) => {
     try {
       const productExists = cart.find(product => product.id === productId)
+      
       if(productExists) {
         const newCart = cart.filter(product => product.id !== productId)
         setCart(newCart)
         localStorage.setItem('@RocketShoes:cart', JSON.stringify(newCart))
       }else{
-        throw new Error
+        throw Error()
       }
       
     } catch {
@@ -105,11 +106,12 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
       if(productExists){
         productExists.amount = amount
+        setCart(updateCart)
+        localStorage.setItem('@RocketShoes:cart', JSON.stringify(updateCart))
+      }else{
+        throw Error()
       }
 
-      setCart(updateCart)
-
-      localStorage.setItem('@RocketShoes:cart', JSON.stringify(cart))
     } catch {
       toast.error('Erro na alteração de quantidade do produto');
     }
